@@ -1,0 +1,5 @@
+build
+buildroot/output
+buildroot/out_qemu
+buildroot/.config
+buildroot/board/qemu/aarch64-virt/linux.config
