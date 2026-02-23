@@ -1,0 +1,8 @@
+config BR2_PACKAGE_DOOR_SECURITY_DAEMON
+	bool "door-security-daemon"
+	help
+	  A security daemon for the BeagleBone Black that manages
+	  a digital door lock via keypad and servo.
+
+	  https://github.com/kevrocks67/final-project-assignment-aesd-kevrocks67
+
