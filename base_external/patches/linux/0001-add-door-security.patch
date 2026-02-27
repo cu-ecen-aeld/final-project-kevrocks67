@@ -1,0 +1,93 @@
+--- a/arch/arm/boot/dts/ti/omap/am335x-boneblack.dts
++++ b/arch/arm/boot/dts/ti/omap/am335x-boneblack.dts
+@@ -7,7 +7,6 @@
+ #include "am33xx.dtsi"
+ #include "am335x-bone-common.dtsi"
+ #include "am335x-boneblack-common.dtsi"
+-#include "am335x-boneblack-hdmi.dtsi"
+
+ / {
+ 	model = "TI AM335x BeagleBone Black";
+@@ -173,3 +172,82 @@
+ &baseboard_eeprom {
+ 	vcc-supply = <&ldo4_reg>;
+ };
++
++&am33xx_pinmux {
++    nxp_hdmi_bonelt_pins: nxp_hdmi_bonelt_pins {
++        status = "disabled";
++    };
++
++    nxp_hdmi_bonelt_off_pins: nxp_hdmi_bonelt_off_pins {
++        status = "disabled";
++    };
++
++    matrix_keypad_pins: pinmux_matrix_keypad_pins {
++        pinctrl-single,pins = <
++            /* Rows: Pin, Pull-setting, Mode */
++            AM33XX_PADCONF(AM335X_PIN_GPMC_AD13, PIN_INPUT_PULLUP, MUX_MODE7) /* P8_11 */
++            AM33XX_PADCONF(AM335X_PIN_GPMC_AD12, PIN_INPUT_PULLUP, MUX_MODE7) /* P8_12 */
++            AM33XX_PADCONF(AM335X_PIN_GPMC_AD15, PIN_INPUT_PULLUP, MUX_MODE7) /* P8_15 */
++            AM33XX_PADCONF(AM335X_PIN_GPMC_AD14, PIN_INPUT_PULLUP, MUX_MODE7) /* P8_16 */
++
++            /* Columns: Pin, Output-setting, Mode */
++            AM33XX_PADCONF(AM335X_PIN_GPMC_AD9,  PIN_OUTPUT, MUX_MODE7)       /* P9_23 */
++            AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKX, PIN_OUTPUT, MUX_MODE7)   /* P9_25 */
++            AM33XX_PADCONF(AM335X_PIN_MCASP0_FSR, PIN_OUTPUT, MUX_MODE7)      /* P9_27 */
++        >;
++    };
++
++    servo_pwm_pins: pinmux_servo_pwm_pins { pinctrl-single,pins = <AM33XX_IOPAD(0x848, PIN_OUTPUT_PULLDOWN | MUX_MODE6)>; }; /* P9_14 */
++
++    magnetic_switch_pins: pinmux_magnetic_switch_pins { pinctrl-single,pins = <AM33XX_IOPAD(0x964, PIN_INPUT_PULLUP | MUX_MODE7)>; }; /* P9_42 */
++};
++
++/ {
++    matrix_keypad {
++        compatible = "gpio-matrix-keypad";
++        pinctrl-names = "default";
++        pinctrl-0 = <&matrix_keypad_pins>;
++
++        row-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>, <&gpio1 12 GPIO_ACTIVE_LOW>, <&gpio1 15 GPIO_ACTIVE_LOW>, <&gpio1 14 GPIO_ACTIVE_LOW>;
++        col-gpios = <&gpio1 17 GPIO_ACTIVE_LOW>, <&gpio3 21 GPIO_ACTIVE_LOW>, <&gpio3 19 GPIO_ACTIVE_LOW>;
++
++        linux,keymap = <
++			0x0000000b 0x00010002 0x00020003
++			0x01000004 0x01010005 0x01020006
++			0x02000007 0x02010008 0x02020009
++			0x0300000a 0x03010000 0x0302000c
++		>;
++
++        debounce-delay-ms = <50>;
++        col-scan-delay-us = <500>;
++        gpio-activelow;
++        drive-inactive-cols;
++        status = "okay";
++    };
++
++   door_sensor {
++       compatible = "gpio-keys";
++       pinctrl-names = "default";
++       pinctrl-0 = <&magnetic_switch_pins>;
++
++       door_contact {
++           label = "door_sensor";
++           gpios = <&gpio3 7 GPIO_ACTIVE_LOW>;
++           linux,code = <256>; /* BTN_0/BTN_MISC */
++           debounce-interval = <20>;
++       };
++   };
++};
++
++&ehrpwm1 { status = "okay"; pinctrl-names = "default"; pinctrl-0 = <&servo_pwm_pins>; };
++&epwmss1 { status = "okay"; };
++
++&i2c0 {
++    tda998x: tda998x@70 {
++        status = "disabled";
++    };
++};
++
++&lcdc {
++    status = "disabled";
++};
