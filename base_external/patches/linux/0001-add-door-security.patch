@@ -39,7 +39,7 @@
 +
 +    servo_pwm_pins: pinmux_servo_pwm_pins { pinctrl-single,pins = <AM33XX_IOPAD(0x848, PIN_OUTPUT_PULLDOWN | MUX_MODE6)>; }; /* P9_14 */
 +
-+    magnetic_switch_pins: pinmux_magnetic_switch_pins { pinctrl-single,pins = <AM33XX_IOPAD(0x964, PIN_INPUT_PULLUP | MUX_MODE7)>; }; /* P9_42 */
++    magnetic_switch_pins: pinmux_magnetic_switch_pins { pinctrl-single,pins = <AM33XX_IOPAD(0x878, PIN_INPUT_PULLUP | MUX_MODE7)>; }; /* P9_12 */
 +};
 +
 +/ {
@@ -52,11 +52,11 @@
 +        col-gpios = <&gpio1 17 GPIO_ACTIVE_LOW>, <&gpio3 21 GPIO_ACTIVE_LOW>, <&gpio3 19 GPIO_ACTIVE_LOW>;
 +
 +        linux,keymap = <
-+			0x0000000b 0x00010002 0x00020003
-+			0x01000004 0x01010005 0x01020006
-+			0x02000007 0x02010008 0x02020009
-+			0x0300000a 0x03010000 0x0302000c
-+		>;
++           0x00000002 0x00010003 0x00020004
++           0x01000005 0x01010006 0x01020007
++           0x02000008 0x02010009 0x0202000a
++           0x03000037 0x0301000b 0x0302001c
++        >;
 +
 +        debounce-delay-ms = <50>;
 +        col-scan-delay-us = <500>;
@@ -72,7 +72,7 @@
 +
 +       door_contact {
 +           label = "door_sensor";
-+           gpios = <&gpio3 7 GPIO_ACTIVE_LOW>;
++           gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
 +           linux,code = <256>; /* BTN_0/BTN_MISC */
 +           debounce-interval = <20>;
 +       };
