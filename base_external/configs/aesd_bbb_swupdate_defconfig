@@ -1,0 +1,207 @@
+CONFIG_HAVE_LINUX=y
+CONFIG_HAVE_LIBCONFIG=y
+CONFIG_HAVE_LIBCURL=y
+CONFIG_HAVE_LIBUBOOTENV=y
+CONFIG_HAVE_LIBTEGRABOOT_TOOLS=y
+CONFIG_HAVE_LIBBTRFS=y
+CONFIG_HAVE_ZLIB=y
+
+#
+# SWUpdate Settings
+#
+
+#
+# General Configuration
+#
+CONFIG_CURL=y
+
+#
+# systemd support needs libsystemd
+#
+CONFIG_DEFAULT_CONFIG_FILE="/etc/swupdate.cfg"
+CONFIG_SCRIPTS=y
+# CONFIG_HW_COMPATIBILITY is not set
+CONFIG_SW_VERSIONS_FILE="/etc/sw-versions"
+
+#
+# Socket Paths
+#
+CONFIG_SOCKET_CTRL_PATH="/tmp/sockinstctrl"
+CONFIG_SOCKET_PROGRESS_PATH="/tmp/swupdateprog"
+# end of Socket Paths
+
+#
+# MTD support needs libmtd
+#
+
+#
+# Lua support needs a Lua interpreter
+#
+# end of General Configuration
+
+#
+# Build Options
+#
+CONFIG_CROSS_COMPILE=""
+CONFIG_SYSROOT=""
+CONFIG_EXTRA_CFLAGS=""
+CONFIG_EXTRA_LDFLAGS=""
+CONFIG_EXTRA_LDLIBS=""
+# end of Build Options
+
+#
+# Debugging Options
+#
+# CONFIG_DEBUG is not set
+# CONFIG_WERROR is not set
+# CONFIG_NOCLEANUP is not set
+# end of Debugging Options
+# end of SWUpdate Settings
+
+#
+# Bootloader support
+#
+
+#
+# Bootloader Interfaces
+#
+CONFIG_BOOTLOADER_NONE=y
+
+#
+# EFI Boot Guard needs libebgenv and libz
+#
+CONFIG_UBOOT=y
+CONFIG_UBOOT_FWENV="/etc/fw_env.config"
+CONFIG_UBOOT_DEFAULTENV="/etc/u-boot-initial-env"
+# CONFIG_BOOTLOADER_GRUB is not set
+# CONFIG_BOOTLOADER_CBOOT is not set
+# end of Bootloader Interfaces
+
+# CONFIG_BOOTLOADER_DEFAULT_UBOOT is not set
+CONFIG_BOOTLOADER_DEFAULT_NONE=y
+# CONFIG_BOOTLOADER_STATIC_LINKED is not set
+CONFIG_UPDATE_STATE_CHOICE_BOOTLOADER=y
+CONFIG_UPDATE_STATE_BOOTLOADER="ustate"
+
+#
+# Interfaces
+#
+CONFIG_DOWNLOAD=y
+# CONFIG_DOWNLOAD_SSL is not set
+CONFIG_CHANNEL_CURL=y
+CONFIG_SURICATTA=y
+
+#
+# Features
+#
+# CONFIG_SURICATTA_SSL is not set
+# end of Features
+
+#
+# Server
+#
+CONFIG_SURICATTA_HAWKBIT=y
+CONFIG_SURICATTA_GENERAL=y
+# end of Server
+
+#
+# Suricatta Lua module support needs Lua
+#
+CONFIG_WEBSERVER=y
+CONFIG_MONGOOSE=y
+CONFIG_MONGOOSEIPV6=y
+
+#
+# SSL support needs an SSL implementation
+#
+
+#
+# Security
+#
+CONFIG_SSL_IMPL_NONE=y
+
+#
+# Hash checking needs an SSL implementation
+#
+
+#
+# Image signature verification needs an SSL implementation
+#
+
+#
+# Image encryption needs an SSL implementation
+#
+
+#
+# Compressors (zlib always on)
+#
+CONFIG_GUNZIP=y
+
+#
+# Parsers
+#
+
+#
+# Parser Features
+#
+CONFIG_LIBCONFIG=y
+CONFIG_PARSERROOT=""
+# CONFIG_SETSWDESCRIPTION is not set
+# end of Parser Features
+
+#
+# Handlers
+#
+
+#
+# Image Handlers
+#
+
+#
+# archive support needs libarchive
+#
+CONFIG_BOOTLOADERHANDLER=y
+# CONFIG_COPY is not set
+
+#
+# diskpart support needs libfdisk
+#
+# CONFIG_DISKFORMAT_HANDLER is not set
+# CONFIG_EMMC_HANDLER is not set
+CONFIG_RAW=y
+
+#
+# rdiff support needs librsync
+#
+
+#
+# remote handler needs zeromq
+#
+# CONFIG_SHELLSCRIPTHANDLER is not set
+
+#
+# swuforward handler needs websockets and uriparser
+#
+
+#
+# ubivol support needs libubi
+#
+
+#
+# Microcontroller handler depends on libgpiod
+#
+
+#
+# uniqueuuid support needs libblkid
+#
+# end of Image Handlers
+
+#
+# Containers
+#
+
+#
+# Update containers
+#
+# CONFIG_DOCKER is not set
+# end of Update containers
