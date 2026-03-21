@@ -3,3 +3,9 @@ buildroot/output
 buildroot/out_qemu
 buildroot/.config
 buildroot/board/qemu/aarch64-virt/linux.config
+updates/*.dtb
+updates/*.gz
+updates/sw-description
+updates/sw-description.sig
+updates/zImage
+*.swu

@@ -1,0 +1,20 @@
+bootpart=0:1
+devtype=mmc
+bootdir=
+bootfile=zImage
+fdtfile=am335x-boneblack.dtb
+console=ttyS0,115200n8
+loadaddr=0x82000000
+fdtaddr=0x88000000
+
+# A/B Update Logic
+# Default to slot A (p2) if ustate is empty or 0
+init_ustate=if test -z "${ustate}"; then setenv ustate 0; saveenv; fi
+set_slot=if test "${ustate}" = "1"; then setenv bootpartition mmcblk0p3; else setenv bootpartition mmcblk0p2; fi
+
+loadimage=load ${devtype} ${bootpart} ${loadaddr} ${bootdir}/${bootfile}
+loadfdt=load ${devtype} ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile}
+
+set_bootargs=setenv bootargs console=${console} root=/dev/${bootpartition} rw rootfstype=ext4 rootwait
+
+uenvcmd=run init_ustate; run set_slot; run set_bootargs; run loadimage; run loadfdt; printenv bootargs; bootz ${loadaddr} - ${fdtaddr}

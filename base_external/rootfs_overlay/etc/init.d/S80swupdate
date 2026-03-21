@@ -1,0 +1,51 @@
+#!/bin/sh
+
+VERSION_FILE="/etc/os-version"
+CONF_FILE="/data/swupdate.cfg"
+
+case "$1" in
+  start)
+    if [ -f "$VERSION_FILE" ]; then
+        CUR_VER=$(cat $VERSION_FILE)
+        echo "-----------------------------------------------"
+        echo "  Door Security OS Booting - Version: $CUR_VER"
+        echo "-----------------------------------------------"
+    fi
+
+    # If we are booted into a new update (ustate=1), confirm it's working
+    # and set it back to 0 (or 2 for "tested") so U-Boot knows we are stable.
+    USTATE=$(fw_printenv -n ustate 2>/dev/null)
+    if [ "$USTATE" = "1" ]; then
+        echo "New update detected! Confirming successful boot..."
+        fw_setenv ustate 0
+    fi
+
+    echo "Starting SWUpdate daemon..."
+
+    # Use CPU serial number as a unique identifier
+    CPU_SERIAL=$(grep Serial /proc/cpuinfo | cut -d ':' -f 2 | tr -d ' ')
+
+    CUR_APP_VER=$(grep "door_security_daemon" /data/sw-versions | awk '{print $2}' | head -n 1)
+    [ -z "$CUR_APP_VER" ] && CUR_APP_VER="none"
+
+    CUR_OS_VER=$(cat /etc/os-version)
+    [ -z "$CUR_OS_VER" ] && CUR_OS_VER="none"
+
+    # Populate config template with device serial
+    sed -e "s/DEVICE_SERIAL_HERE/BBB-$CPU_SERIAL/" \
+    -e "s/@OS_VER@/$CUR_OS_VER/" \
+    -e "s/@APP_VER@/$CUR_APP_VER/" \
+    /etc/swupdate.cfg.tmpl > "$CONF_FILE"
+
+    start-stop-daemon -S -b -x /usr/bin/swupdate -- -f "$CONF_FILE" -u ""
+    ;;
+  stop)
+    echo "Stopping SWUpdate..."
+    killall swupdate
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+esac
+
+exit 0

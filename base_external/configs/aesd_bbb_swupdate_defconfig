@@ -5,6 +5,8 @@ CONFIG_HAVE_LIBUBOOTENV=y
 CONFIG_HAVE_LIBTEGRABOOT_TOOLS=y
 CONFIG_HAVE_LIBBTRFS=y
 CONFIG_HAVE_ZLIB=y
+CONFIG_HAVE_LIBSSL=y
+CONFIG_HAVE_LIBCRYPTO=y
 
 #
 # SWUpdate Settings
@@ -18,10 +20,10 @@ CONFIG_CURL=y
 #
 # systemd support needs libsystemd
 #
-CONFIG_DEFAULT_CONFIG_FILE="/etc/swupdate.cfg"
+CONFIG_DEFAULT_CONFIG_FILE="/data/swupdate.cfg"
 CONFIG_SCRIPTS=y
 # CONFIG_HW_COMPATIBILITY is not set
-CONFIG_SW_VERSIONS_FILE="/etc/sw-versions"
+CONFIG_SW_VERSIONS_FILE="/etc/os-version"
 
 #
 # Socket Paths
@@ -110,27 +112,20 @@ CONFIG_SURICATTA_GENERAL=y
 CONFIG_WEBSERVER=y
 CONFIG_MONGOOSE=y
 CONFIG_MONGOOSEIPV6=y
-
-#
-# SSL support needs an SSL implementation
-#
+# CONFIG_MONGOOSESSL is not set
 
 #
 # Security
 #
-CONFIG_SSL_IMPL_NONE=y
-
-#
-# Hash checking needs an SSL implementation
-#
-
-#
-# Image signature verification needs an SSL implementation
-#
-
-#
-# Image encryption needs an SSL implementation
-#
+# CONFIG_SSL_IMPL_NONE is not set
+CONFIG_SSL_IMPL_OPENSSL=y
+CONFIG_HASH_VERIFY=y
+CONFIG_SIGNED_IMAGES=y
+CONFIG_SIGALG_RAWRSA=y
+# CONFIG_SIGALG_RSAPSS is not set
+# CONFIG_SIGALG_CMS is not set
+# CONFIG_SIGALG_GPG is not set
+# CONFIG_ENCRYPTED_IMAGES is not set
 
 #
 # Compressors (zlib always on)
@@ -173,11 +168,12 @@ CONFIG_RAW=y
 #
 # rdiff support needs librsync
 #
+# CONFIG_READBACKHANDLER is not set
 
 #
 # remote handler needs zeromq
 #
-# CONFIG_SHELLSCRIPTHANDLER is not set
+CONFIG_SHELLSCRIPTHANDLER=y
 
 #
 # swuforward handler needs websockets and uriparser

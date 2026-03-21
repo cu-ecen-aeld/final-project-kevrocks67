@@ -1,0 +1,32 @@
+globals :
+{
+    verbose = true;
+    loglevel = 5;
+    syslog = true;
+    public-key-file = "/etc/swupdate/aesd-pub.pem";
+    gen-swversions = "/data/sw-versions";
+    bootloader = "uboot";
+};
+
+identify : (
+    { name = "os_version"; value = "@OS_VER@"; },
+    { name = "app_version"; value = "@APP_VER@"; }
+);
+
+suricatta : {
+    server = "hawkbit"
+    tenant = "default";
+    id = "DEVICE_SERIAL_HERE";
+    url = "http://192.168.1.85:8080";
+
+    # Random UUID generated and hardcoded as to not do a more complex set up
+    gatewaytoken = "d430cf82-6fd5-47eb-a55a-aff68fd33f59";
+
+    polldelay = 60;
+    timeout = 60;
+    retry = 3;
+    retrywait = 60;
+    initial-report-resend-period = 30;
+    connection-timeout = 10;
+    max-download-speed = "2M";
+};

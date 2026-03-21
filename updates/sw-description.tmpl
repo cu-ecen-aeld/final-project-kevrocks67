@@ -1,0 +1,39 @@
+software = {
+    name = "door-security-os"
+    version = "VERSION_HERE";
+    description = "Full A/B System Update for BeagleBone Door Security OS";
+
+    images: (
+        {
+            filename = "rootfs.ext4.gz";
+            device = "/dev/mmcblk0p3";
+            type = "raw";
+            compressed = "zlib";
+            sha256 = "ROOTFS_HASH_HERE";
+        }
+    );
+
+    files: (
+        {
+            filename = "zImage";
+            device = "/dev/mmcblk0p1";
+            path = "/zImage";
+            sha256 = "KERNEL_HASH_HERE";
+            filesystem = "vfat";
+        },
+        {
+            filename = "am335x-boneblack.dtb";
+            device = "/dev/mmcblk0p1";
+            path = "/am335x-boneblack.dtb";
+            sha256 = "DTB_HASH_HERE";
+            filesystem = "vfat";
+        }
+    );
+
+    bootenv: (
+        {
+            name = "ustate";
+            value = "1";
+        }
+    );
+}
